@@ -14,3 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('/domains', 'DomainController@index')->name('domains.index');
+Route::post('/domains', 'DomainController@create')->name('domains.store');
