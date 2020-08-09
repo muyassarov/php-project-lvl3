@@ -13,7 +13,7 @@ class DomainController extends Controller
     {
         // validate input data:
         $validator = Validator::make($request->all(), [
-            'domain' => 'required|unique:domains,name|max:255'
+            'domain' => 'required|unique:domains,name|url'
         ]);
         if ($validator->fails()) {
             flash($validator->errors()->first())->error();
