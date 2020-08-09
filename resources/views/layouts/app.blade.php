@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/app.css" >
+    <link rel="stylesheet" href="/css/app.css">
 
     <title>Page Analyzer</title>
 </head>
@@ -17,7 +17,12 @@
 
     @yield('content')
 </div>
-
+<footer class="fixed-bottom">
+    <hr/>
+    <div class="container text-center mt-5 pb-3">
+        created by <a target="_blank" href="https://github.com/muyassarov">Muyassarov Behruz</a>
+    </div>
+</footer>
 <script src="/js/app.js"></script>
 </body>
 </html>
