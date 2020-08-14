@@ -13,7 +13,7 @@ class DomainController extends Controller
     {
         // validate input data:
         $validator = Validator::make($request->all(), [
-            'domain' => 'required|unique:domains,name|url'
+            'name' => 'required|unique:domains,name|url'
         ]);
         if ($validator->fails()) {
             flash($validator->errors()->first())->error();
@@ -21,9 +21,9 @@ class DomainController extends Controller
         }
 
         // insert new domain
-        $domain = $request->input('domain');
         DB::table('domains')->insert([
-            'name' => $domain, 'created_at' => Carbon::now()
+            'name'       => $request->input('name'),
+            'created_at' => Carbon::now()
         ]);
 
         flash('Domain was successfully added')->success();
