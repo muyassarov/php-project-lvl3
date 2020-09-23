@@ -1,7 +1,12 @@
 <?php
 
 use Illuminate\Support\Str;
-$database_url = parse_url(getenv("DATABASE_URL"));
+$databaseUrl = parse_url(getenv("DATABASE_URL"));
+$pgDbHost = $databaseUrl['host'] ?? 'localhost';
+$pgDbPort = $databaseUrl['port'] ?? 5432;
+$pgDbName = $databaseUrl['path'] ?? 'dbname';
+$pgDbUser = $databaseUrl['user'] ?? 'root';
+$pgDbPass = $databaseUrl['pass'] ?? '';
 
 return [
 
@@ -67,11 +72,11 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
-            'host' => $database_url['host'],
-            'port' => $database_url['port'],
-            'database' => ltrim($database_url['path'], '/'),
-            'username' => $database_url['user'],
-            'password' => $database_url['pass'],
+            'host' => env('DB_HOST', $pgDbHost),
+            'port' => env('DB_PORT', $pgDbPort),
+            'database' => ltrim(env('DB_DATABASE', $pgDbName), '/'),
+            'username' => env('DB_USERNAME', $pgDbUser),
+            'password' => env('DB_PASSWORD', $pgDbPass),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
