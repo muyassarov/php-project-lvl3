@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class DomainController extends Controller
@@ -78,10 +79,22 @@ class DomainController extends Controller
             return redirect()->route('domains.index')->withInput();
         }
 
+        $statusCode = null;
+        $domain     = DB::table('domains')->find($id, [
+            'id',
+            'name',
+        ]);
+        try {
+            $httpResponse = Http::get($domain->name);
+            $statusCode   = $httpResponse->status();
+        } catch (\Exception $e) {
+        }
+
         // insert new domain
         DB::table('domain_checks')->insert([
-            'domain_id'  => $id,
-            'created_at' => Carbon::now(),
+            'domain_id'   => $id,
+            'status_code' => $statusCode,
+            'created_at'  => Carbon::now(),
         ]);
 
         flash('Website has been checked!')->success();
