@@ -9,15 +9,17 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Last Check</th>
+                <th>Status Code</th>
             </tr>
             @foreach($domains as $domain)
                 <tr>
                     <td style="width: 5%">{{$domain->id}}</td>
                     <td>
-                        <a href="{{route('domains.show', [$domain->id])}}">
-                            {{$domain->name}}
-                        </a>
+                        <a href="{{route('domains.show', [$domain->id])}}">{{$domain->name}}</a>
                     </td>
+                    <td>{{$domain->last_check_at}}</td>
+                    <td>{{$domain->status_code}}</td>
                 </tr>
             @endforeach
         </table>

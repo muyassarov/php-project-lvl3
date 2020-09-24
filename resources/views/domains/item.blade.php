@@ -16,10 +16,33 @@
         </table>
 
         <h3 class="mt-5">Checks</h3>
-        <form method="post" action="{{route('domains.check', [$domain->id])}}">
+        <form method="post" action="{{route('domains.checks', [$domain->id])}}">
             @csrf
-            <button class="btn btn-primary" type="submit">Check</button>
+            <button class="btn btn-primary" type="submit">Run check</button>
         </form>
+
+        @isset($domainChecks)
+        <table class="table mt-5">
+            <tr>
+                <th>Id</th>
+                <th>Status Code</th>
+                <th>h1</th>
+                <th>Keywords</th>
+                <th>Description</th>
+                <th>Created At</th>
+            </tr>
+            @foreach($domainChecks as $domainCheck)
+            <tr>
+                <td>{{ $domainCheck->id }}</td>
+                <td>{{ $domainCheck->status_code }}</td>
+                <td>{{ $domainCheck->h1 }}</td>
+                <td>{{ $domainCheck->keywords }}</td>
+                <td>{{ $domainCheck->description }}</td>
+                <td>{{ $domainCheck->created_at }}</td>
+            </tr>
+            @endforeach
+        </table>
+        @endif
 
     </div>
 @endsection
