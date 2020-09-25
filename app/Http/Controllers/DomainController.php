@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Domain\HttpChecker;
+use App\Services\Domain\SeoAnalyzer;
 use Carbon\Carbon;
 use DiDom\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class DomainController extends Controller
@@ -79,44 +82,28 @@ class DomainController extends Controller
             flash($validator->errors()->first())->error();
             return redirect()->route('domains.index')->withInput();
         }
-
-        $h1          = null;
-        $description = null;
-        $keywords    = null;
-        $statusCode  = null;
-        $domain      = DB::table('domains')->find($id, [
+        $domain = DB::table('domains')->find($id, [
             'id',
             'name',
         ]);
+
         try {
-            $httpResponse = Http::get($domain->name);
-            $statusCode   = $httpResponse->status();
-            if ($statusCode == 200) {
-                $htmlBody           = $httpResponse->body();
-                $htmlDocument       = new Document($htmlBody);
-                $h1Element          = $htmlDocument->first('h1');
-                $descriptionElement = $htmlDocument->first('meta[name="description"]');
-                $keywordsElement    = $htmlDocument->first('meta[name="keywords"]');
-                if ($descriptionElement) {
-                    $description = $descriptionElement->getAttribute('content');
-                }
-                if ($keywordsElement) {
-                    $keywords = $keywordsElement->getAttribute('content');
-                }
-                if ($h1Element) {
-                    $h1 = $h1Element->text();
-                }
-            }
+            $domainChecker        = new HttpChecker(['url' => $domain->name]);
+            $domainSeoAnalyzer    = new SeoAnalyzer();
+            $domainResponse       = $domainChecker->check();
+            $domainSeoInformation = $domainSeoAnalyzer->analyze($domainResponse['body']);
         } catch (\Exception $e) {
+            flash('Error occurred while checking domain')->error();
+            return redirect()->route('domains.show', ['id']);
         }
 
         // insert new domain
         DB::table('domain_checks')->insert([
             'domain_id'   => $id,
-            'status_code' => $statusCode,
-            'h1'          => $h1,
-            'keywords'    => $keywords,
-            'description' => $description,
+            'status_code' => $domainResponse['statusCode'],
+            'h1'          => $domainSeoInformation['h1'],
+            'keywords'    => $domainSeoInformation['keywords'],
+            'description' => $domainSeoInformation['description'],
             'created_at'  => Carbon::now(),
         ]);
 
