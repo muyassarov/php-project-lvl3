@@ -93,8 +93,8 @@ class DomainController extends Controller
             $domainResponse       = $domainChecker->check();
             $domainSeoInformation = $domainSeoAnalyzer->analyze($domainResponse['body']);
         } catch (\Exception $e) {
-            flash('Error occurred while checking domain')->error();
-            return redirect()->route('domains.show', ['id']);
+            flash("Error occurred while checking domain. Message: {$e->getMessage()}")->error();
+            return redirect()->route('domains.show', [$id]);
         }
 
         // insert new domain
