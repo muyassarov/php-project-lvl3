@@ -17,7 +17,7 @@ class CreateTableDomainChecks extends Migration
             $table->id()->autoIncrement();
             $table->foreignId('domain_id');
             $table->unsignedTinyInteger('status_code')->nullable();
-            $table->string('h1', 255)->nullable();
+            $table->text('h1')->nullable();
             $table->text('keywords')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
