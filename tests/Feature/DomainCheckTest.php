@@ -3,19 +3,12 @@
 namespace Tests\Feature;
 
 use Carbon\Carbon;
-use GuzzleHttp\MessageFormatter;
-use GuzzleHttp\Psr7\Response as Psr7Response;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class DomainCheckTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * A basic feature test example.
      *

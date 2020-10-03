@@ -3,15 +3,11 @@
 namespace Tests\Feature;
 
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class DomainTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testHomepage()
     {
         $response = $this->get(route('home'));
