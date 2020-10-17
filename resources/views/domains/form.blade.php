@@ -9,7 +9,7 @@
             @include('flash::message')
             <form method="post" action="<?=route('domains.store')?>" class="form-inline">
                 @csrf
-                <input type="text" name="name" id="domain" class="form-control w-25 form-control-lg">
+                <input type="text" name="name" id="domain" value="{{ old('name') }}" class="form-control w-25 form-control-lg">
                 <button class="ml-2 btn btn-lg btn-primary">CHECK</button>
             </form>
         </div>
