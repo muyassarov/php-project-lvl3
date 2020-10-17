@@ -13,13 +13,24 @@
                 <th>Status Code</th>
             </tr>
             @foreach($domains as $domain)
+                @php
+                    $domainCheck = null;
+                @endphp
+                @foreach($lastChecks as $lastCheck)
+                    @if($lastCheck->domain_id == $domain->id)
+                        @php
+                        $domainCheck = $lastCheck;
+                        @endphp
+                        @break
+                    @endif
+                @endforeach
                 <tr>
                     <td style="width: 5%">{{$domain->id}}</td>
                     <td>
                         <a href="{{route('domains.show', [$domain->id])}}">{{$domain->name}}</a>
                     </td>
-                    <td>{{$domain->last_check_at}}</td>
-                    <td>{{$domain->status_code}}</td>
+                    <td>{{$domainCheck ? $domainCheck->created_at : ''}}</td>
+                    <td>{{$domainCheck ? $domainCheck->status_code : ''}}</td>
                 </tr>
             @endforeach
         </table>

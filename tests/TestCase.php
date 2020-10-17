@@ -9,9 +9,4 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
     use RefreshDatabase;
-
-    public function setUp(): void
-    {
-
-    }
 }

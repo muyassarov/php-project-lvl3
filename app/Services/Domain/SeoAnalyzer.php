@@ -17,19 +17,13 @@ class SeoAnalyzer
         ];
 
         try {
-            $htmlDocument       = new Document($htmlBody);
-            $h1Element          = $htmlDocument->first('h1');
-            $descriptionElement = $htmlDocument->first('meta[name="description"]');
-            $keywordsElement    = $htmlDocument->first('meta[name="keywords"]');
-            if ($descriptionElement) {
-                $seoInfo['description'] = $descriptionElement->getAttribute('content');
-            }
-            if ($keywordsElement) {
-                $seoInfo['keywords'] = $keywordsElement->getAttribute('content');
-            }
-            if ($h1Element) {
-                $seoInfo['h1'] = $h1Element->text();
-            }
+            $document = new Document($htmlBody);
+
+            $seoInfo['h1']          = optional($document->first('h1'))->text();
+            $seoInfo['description'] = optional($document->first('meta[name="description"]'))
+                ->getAttribute('content');
+            $seoInfo['keywords']    = optional($document->first('meta[name="keywords"]'))
+                ->getAttribute('content');
         } catch (\Exception $e) {
             Log::debug("Error occurred while parsing HTML document. Error: {$e->getMessage()}");
         }

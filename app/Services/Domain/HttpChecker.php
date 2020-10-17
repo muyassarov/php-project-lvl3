@@ -11,10 +11,7 @@ class HttpChecker
 
     public function __construct($config)
     {
-        $this->url  = $config['url'] ?? null;
-        if (!$this->url) {
-            throw new \Exception('URL is required as parameter');
-        }
+        $this->url  = $config['url'];
     }
 
     public function check()

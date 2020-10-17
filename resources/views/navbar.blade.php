@@ -8,9 +8,9 @@ $routeName = \Illuminate\Support\Facades\Route::current()->getName();
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item <?=$routeName == 'home' ? 'active' : ''?>">
+            <li class="nav-item <?=$routeName == 'root' ? 'active' : ''?>">
                 <a class="nav-link" href="/">Home
-                    @if ($routeName == 'home')
+                    @if ($routeName == 'root')
                     <span class="sr-only">(current)</span>
                     @endif
                 </a>
