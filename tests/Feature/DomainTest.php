@@ -11,7 +11,7 @@ class DomainTest extends TestCase
     private $domainId;
 
     const DOMAIN_NAME = 'https://google.ru';
-    const PAGE_TITLE = 'Page Analyzer';
+    const PAGE_TITLE  = 'Page Analyzer';
 
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class DomainTest extends TestCase
         $this->domainId = DB::table('domains')->insertGetId($data);
     }
 
-    public function testHomepage()
+    public function testRoot()
     {
         $response = $this->get(route('root'));
         $response->assertSee(self::PAGE_TITLE);

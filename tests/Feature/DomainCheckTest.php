@@ -15,7 +15,7 @@ class DomainCheckTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->domainId    = DB::table('domains')->insertGetId([
+        $this->domainId = DB::table('domains')->insertGetId([
             'name'       => 'https://test.com',
             'created_at' => Carbon::now(),
         ]);
