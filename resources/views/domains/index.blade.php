@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'List of available domains')
+
 @section('content')
     <div class="container-md mt-5">
         <h1 class="display-4">Domains</h1>
-        @include('flash::message')
         @isset($domains)
         <table class="table table-bordered">
             <tr>
@@ -14,23 +15,15 @@
             </tr>
             @foreach($domains as $domain)
                 @php
-                    $domainCheck = null;
+                $domainCheck = $lastChecks[$domain->id] ?? null;
                 @endphp
-                @foreach($lastChecks as $lastCheck)
-                    @if($lastCheck->domain_id == $domain->id)
-                        @php
-                        $domainCheck = $lastCheck;
-                        @endphp
-                        @break
-                    @endif
-                @endforeach
                 <tr>
                     <td style="width: 5%">{{$domain->id}}</td>
                     <td>
                         <a href="{{route('domains.show', [$domain->id])}}">{{$domain->name}}</a>
                     </td>
-                    <td>{{$domainCheck ? $domainCheck->created_at : ''}}</td>
-                    <td>{{$domainCheck ? $domainCheck->status_code : ''}}</td>
+                    <td>{{$domainCheck->created_at ?? ''}}</td>
+                    <td>{{$domainCheck->status_code ?? ''}}</td>
                 </tr>
             @endforeach
         </table>

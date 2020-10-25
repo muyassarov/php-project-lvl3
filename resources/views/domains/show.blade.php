@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
+@section('title', "Domain {$domain->name} SEO checks")
+
 @section('content')
     <div class="container-md mt-5">
         <h1 class="display-4">Site: {{$domain->name}}</h1>
-        @include('flash::message')
         <table class="table table-bordered">
             <tr>
                 <td style="width: 200px">Id</td>
@@ -35,9 +36,9 @@
             <tr>
                 <td>{{ $domainCheck->id }}</td>
                 <td>{{ $domainCheck->status_code }}</td>
-                <td>{{ $domainCheck->h1 }}</td>
-                <td>{{ $domainCheck->keywords }}</td>
-                <td>{{ $domainCheck->description }}</td>
+                <td>{{ Illuminate\Support\Str::limit($domainCheck->h1, 10) }}</td>
+                <td>{{ Illuminate\Support\Str::limit($domainCheck->keywords, 10) }}</td>
+                <td>{{ Illuminate\Support\Str::limit($domainCheck->description, 10) }}</td>
                 <td>{{ $domainCheck->created_at }}</td>
             </tr>
             @endforeach

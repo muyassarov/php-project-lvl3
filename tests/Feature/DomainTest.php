@@ -51,6 +51,7 @@ class DomainTest extends TestCase
     public function testShow()
     {
         $response = $this->get(route('domains.show', [$this->domainId]));
+        $response->assertSee(self::DOMAIN_NAME);
         $response->assertOk();
     }
 }

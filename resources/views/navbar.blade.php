@@ -8,15 +8,15 @@ $routeName = \Illuminate\Support\Facades\Route::current()->getName();
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item <?=$routeName == 'root' ? 'active' : ''?>">
+            <li class="nav-item {{ $routeName == 'root' ? 'active' : '' }}">
                 <a class="nav-link" href="/">Home
                     @if ($routeName == 'root')
                     <span class="sr-only">(current)</span>
                     @endif
                 </a>
             </li>
-            <li class="nav-item <?=$routeName == 'domains.index' ? 'active' : ''?>">
-                <a class="nav-link" href="<?=route('domains.index')?>">Domains
+            <li class="nav-item {{ $routeName == 'domains.index' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('domains.index') }}">Domains
                     @if ($routeName == 'domains.index')
                     <span class="sr-only">(current)</span>
                     @endif

@@ -16,17 +16,12 @@ class SeoAnalyzer
             'keywords'    => null,
         ];
 
-        try {
-            $document = new Document($htmlBody);
-
-            $seoInfo['h1']          = optional($document->first('h1'))->text();
-            $seoInfo['description'] = optional($document->first('meta[name="description"]'))
-                ->getAttribute('content');
-            $seoInfo['keywords']    = optional($document->first('meta[name="keywords"]'))
-                ->getAttribute('content');
-        } catch (\Exception $e) {
-            Log::debug("Error occurred while parsing HTML document. Error: {$e->getMessage()}");
-        }
+        $document               = new Document($htmlBody);
+        $seoInfo['h1']          = optional($document->first('h1'))->text();
+        $seoInfo['description'] = optional($document->first('meta[name="description"]'))
+            ->getAttribute('content');
+        $seoInfo['keywords']    = optional($document->first('meta[name="keywords"]'))
+            ->getAttribute('content');
 
         return $seoInfo;
     }

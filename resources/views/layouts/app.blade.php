@@ -8,11 +8,12 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/app.css">
 
-    <title>Page Analyzer</title>
+    <title>Analyzer - @yield('title')</title>
 </head>
 <body>
 
 @include('navbar')
+@include('flash::message')
 <div class="container-fluid">
 
     @yield('content')
