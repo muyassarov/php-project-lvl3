@@ -14,16 +14,13 @@
                 <th>Status Code</th>
             </tr>
             @foreach($domains as $domain)
-                @php
-                $domainCheck = $lastChecks[$domain->id] ?? null;
-                @endphp
                 <tr>
                     <td style="width: 5%">{{$domain->id}}</td>
                     <td>
                         <a href="{{route('domains.show', [$domain->id])}}">{{$domain->name}}</a>
                     </td>
-                    <td>{{$domainCheck->created_at ?? ''}}</td>
-                    <td>{{$domainCheck->status_code ?? ''}}</td>
+                    <td>{{$lastChecks[$domain->id]->created_at ?? ''}}</td>
+                    <td>{{$lastChecks[$domain->id]->status_code ?? ''}}</td>
                 </tr>
             @endforeach
         </table>
