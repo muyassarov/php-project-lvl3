@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Services\Domain\HttpChecker;
 use App\Services\Domain\SeoAnalyzer;
 use Carbon\Carbon;
-use GuzzleHttp\Exception\RequestException;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 
-class CheckController extends Controller
+class DomainCheckController extends Controller
 {
 
     public function store($id)
@@ -35,7 +36,9 @@ class CheckController extends Controller
 
             flash('Website has been checked!')->success();
         } catch (RequestException $e) {
-            flash("Error occurred while checking domain. Message: {$e->getMessage()}")->error();
+            flash("Request failed. Message: {$e->getMessage()}")->error();
+        } catch (ConnectionException $e) {
+            flash("Connection error. Message: {$e->getMessage()}")->error();
         }
 
         return redirect()->route('domains.show', [$id]);
