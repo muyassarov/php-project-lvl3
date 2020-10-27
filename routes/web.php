@@ -17,5 +17,5 @@ Route::get('/', 'HomeController@index')->name('root');
 Route::resource('domains', 'DomainController')->only([
     'index', 'store', 'show'
 ]);
-Route::post('/domains/{domain}/checks', 'Domain\CheckController@store')
+Route::post('/domains/{domain}/checks', 'DomainCheckController@store')
     ->name('domains.checks.store');
