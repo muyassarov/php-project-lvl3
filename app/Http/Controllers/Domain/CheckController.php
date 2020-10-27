@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Domain;
 
+use App\Http\Controllers\Controller;
 use App\Services\Domain\HttpChecker;
 use App\Services\Domain\SeoAnalyzer;
 use Carbon\Carbon;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Request;
 
-class DomainCheckController extends Controller
+class CheckController extends Controller
 {
 
     public function store($id)
