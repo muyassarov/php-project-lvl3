@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Domain\DomainNormalizer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +13,8 @@ class DomainController extends Controller
     {
         $distinctOn = app('db')->raw('DISTINCT domain_id, created_at, status_code');
         $domains    = app('db')->table('domains')->get();
-        $lastChecks = app('db')->table('domain_checks')
+        $lastChecks = app('db')
+            ->table('domain_checks')
             ->select($distinctOn)
             ->orderBy("domain_id")
             ->orderBy("created_at", "desc")
@@ -35,14 +35,26 @@ class DomainController extends Controller
             return redirect()->route('root')->withInput();
         }
 
-        $domainName = DomainNormalizer::normalize($request->input('name'));
-        $domain     = app('db')->table('domains')->where('name', $domainName)->first();
+        $inputDomainName  = $request->input('name');
+        $domainComponents = parse_url($inputDomainName);
+        if (!$domainComponents) {
+            flash("Malformed URL: {$inputDomainName}")->error();
+            return redirect()->route('root')->withInput();
+        }
+
+        $scheme               = $domainComponents['scheme'] ?? 'https';
+        $host                 = $domainComponents['host'];
+        $port                 = $domainComponents['port'] ?? '';
+        $urlPortPart          = $port ? ":{$port}" : '';
+        $normalizedDomainName = mb_strtolower("{$scheme}://{$host}{$urlPortPart}");
+
+        $domain = app('db')->table('domains')->where('name', $normalizedDomainName)->first();
         if ($domain) {
             $domainId = $domain->id;
             flash('Domain already existed')->info();
         } else {
             $domainId = app('db')->table('domains')->insertGetId([
-                'name'       => $domainName,
+                'name'       => $normalizedDomainName,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -60,8 +72,7 @@ class DomainController extends Controller
         ]);
         abort_unless($domain, 404);
 
-        $domainChecks = app('db')->table('domain_checks')->where('domain_id', $id)
-            ->latest()->get();
+        $domainChecks = app('db')->table('domain_checks')->where('domain_id', $id)->latest()->get();
         return view('domains.show', compact('domain', 'domainChecks'));
     }
 }

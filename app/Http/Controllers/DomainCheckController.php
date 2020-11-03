@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Domain\HttpChecker;
 use App\Services\Domain\SeoAnalyzer;
 use Carbon\Carbon;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Http;
 
 class DomainCheckController extends Controller
 {
@@ -20,13 +20,12 @@ class DomainCheckController extends Controller
         abort_unless($domain, 404);
 
         try {
-            $domainChecker        = new HttpChecker(['url' => $domain->name]);
+            $httpResponse         = Http::get($domain->name);
             $domainSeoAnalyzer    = new SeoAnalyzer();
-            $domainResponse       = $domainChecker->check();
-            $domainSeoInformation = $domainSeoAnalyzer->analyze($domainResponse['body']);
+            $domainSeoInformation = $domainSeoAnalyzer->analyze($httpResponse->body());
             app('db')->table('domain_checks')->insert([
                 'domain_id'   => $id,
-                'status_code' => $domainResponse['statusCode'],
+                'status_code' => $httpResponse->status(),
                 'h1'          => $domainSeoInformation['h1'],
                 'keywords'    => $domainSeoInformation['keywords'],
                 'description' => $domainSeoInformation['description'],

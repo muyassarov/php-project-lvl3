@@ -36,9 +36,9 @@
             <tr>
                 <td>{{ $domainCheck->id }}</td>
                 <td>{{ $domainCheck->status_code }}</td>
-                <td>{{ Illuminate\Support\Str::limit($domainCheck->h1, 10) }}</td>
-                <td>{{ Illuminate\Support\Str::limit($domainCheck->keywords, 10) }}</td>
-                <td>{{ Illuminate\Support\Str::limit($domainCheck->description, 10) }}</td>
+                <td>{{ Str::limit($domainCheck->h1, 10) }}</td>
+                <td>{{ Str::limit($domainCheck->keywords, 10) }}</td>
+                <td>{{ Str::limit($domainCheck->description, 10) }}</td>
                 <td>{{ $domainCheck->created_at }}</td>
             </tr>
             @endforeach
