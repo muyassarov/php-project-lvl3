@@ -35,13 +35,8 @@ class DomainController extends Controller
             return redirect()->route('root')->withInput();
         }
 
-        $inputDomainName  = $request->input('name');
-        $domainComponents = parse_url($inputDomainName);
-        if (!$domainComponents) {
-            flash("Malformed URL: {$inputDomainName}")->error();
-            return redirect()->route('root')->withInput();
-        }
-
+        $inputDomainName      = $request->input('name');
+        $domainComponents     = parse_url($inputDomainName);
         $scheme               = $domainComponents['scheme'] ?? 'https';
         $host                 = $domainComponents['host'];
         $port                 = $domainComponents['port'] ?? '';
