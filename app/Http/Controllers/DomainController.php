@@ -37,7 +37,7 @@ class DomainController extends Controller
 
         $inputDomainName      = $request->input('name');
         $domainComponents     = parse_url($inputDomainName);
-        $scheme               = $domainComponents['scheme'] ?? 'https';
+        $scheme               = $domainComponents['scheme'];
         $host                 = $domainComponents['host'];
         $port                 = $domainComponents['port'] ?? '';
         $urlPortPart          = $port ? ":{$port}" : '';
