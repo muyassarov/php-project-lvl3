@@ -40,6 +40,6 @@ class DomainCheckController extends Controller
             flash("Connection error. Message: {$e->getMessage()}")->error();
         }
 
-        return redirect()->route('domains.show', [$id]);
+        return redirect()->route('domains.show', $id);
     }
 }

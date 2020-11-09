@@ -56,7 +56,7 @@ class DomainController extends Controller
             flash('Domain was successfully added')->success();
         }
 
-        return redirect()->route('domains.show', [$domainId]);
+        return redirect()->route('domains.show', $domainId);
     }
 
     public function show($id)
